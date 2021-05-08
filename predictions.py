@@ -5,6 +5,7 @@ from tensorflow.keras.applications.resnet50 import preprocess_input
 from tensorflow.keras.preprocessing import image
 from PIL import Image
 import os
+import urllib.request
 
 import numpy as np
 
@@ -15,7 +16,13 @@ dir = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
 IMG_SIZE = 224
 image_01 = None
 
-MODEL_PATH = os.path.join(dir,'assets','model','2021_05_02_23_43_51_model_1.h5')
+#MODEL_PATH = os.path.join(dir,'assets','model','2021_05_02_23_43_51_model_1.h5')
+#model = load_model_web()
+
+url = "https://westonemanor-westonemanorhote.netdna-ssl.com/assets/uploads/2021/05/2021_05_02_23_43_51_model_1.h5"
+urllib.request.urlretrieve(
+        url, 'model.h5')
+MODEL_PATH = './model.h5'
 model = load_model(MODEL_PATH)
 
 LABELS_PATH = os.path.join(dir,'assets','labels','2021_05_02_23_43_51_labels.csv')
