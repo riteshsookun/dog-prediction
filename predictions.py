@@ -6,7 +6,7 @@ from tensorflow.keras.preprocessing import image
 from PIL import Image
 import os
 import numpy as np
-
+import streamlit as st
 
 IMG_SIZE = 224
 image_01 = None
@@ -14,10 +14,14 @@ image_01 = None
 dir = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
 DATASET_PATH = os.path.join(dir,'assets')
 
-model_name = "2021_05_10_17_33_09_model_3.h5"
-model = load_model(os.path.join(DATASET_PATH,'model', model_name))
+@st.cache
+def load_saved_model():
+    model_name = "2021_05_10_17_33_09_model_3.h5"
+    model = load_model(os.path.join(DATASET_PATH,'model', model_name))
+    return model
 
 LABELS_PATH = (os.path.join(dir,'assets','labels','2021_05_10_17_33_09_labels.csv'))
+model = load_saved_model
 
 class Predictions:
     global image_01
@@ -60,3 +64,5 @@ class Predictions:
 
 if __name__ == "__main__":
     pass
+
+print(model.summary())
