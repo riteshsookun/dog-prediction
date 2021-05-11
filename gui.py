@@ -34,13 +34,16 @@ def main():
         # get classification label
         try:
             prediction_label, prediction_acc = pred.predictions_label()
-
+            print(prediction_acc)
             if prediction_acc < 0.50:
-
              # display classification output
                 st.write("We're not too sure what breed your dog is but "
                          "our best guess is a ", prediction_label, " with a probability of",
                          ('%.0f' % (prediction_acc * 100.0)), "%")
+            elif prediction_acc > 0.99:
+                # rounding to 2dp here as we don't want to say 100% accuracy since it's just a prediction
+                st.write("Your dog is most likely a ", prediction_label, " with a probability of",
+                         ('%.2f' % (prediction_acc * 100.0)), "%")
             else:
                 st.write("Your dog is most likely a ", prediction_label, " with a probability of",
                          ('%.0f' % (prediction_acc * 100.0)), "%")

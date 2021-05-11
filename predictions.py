@@ -1,14 +1,11 @@
 import pandas as pd
+import tensorflow as tf
 from tensorflow.keras.models import load_model
-#from tensorflow.keras.applications.resnet50 import preprocess_input
 import tensorflow
 from tensorflow.keras.preprocessing import image
 from PIL import Image
 import os
 import numpy as np
-
-os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
-
 
 
 IMG_SIZE = 224
@@ -63,4 +60,3 @@ class Predictions:
 
 if __name__ == "__main__":
     pass
-
