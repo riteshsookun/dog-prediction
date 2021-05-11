@@ -1,38 +1,31 @@
 import pandas as pd
-import tensorflow
 from tensorflow.keras.models import load_model
 from tensorflow.keras.applications.resnet50 import preprocess_input
 from tensorflow.keras.preprocessing import image
 from PIL import Image
 import os
-import urllib.request
-
 import numpy as np
 
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 
 
-dir = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
 
 IMG_SIZE = 224
 image_01 = None
 
-#MODEL_PATH = os.path.join(dir,'assets','model','2021_05_02_23_43_51_model_1.h5')
-#model = load_model_web()
+dir = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
+DATASET_PATH = os.path.join(dir,'assets')
 
-url = "https://westonemanor-westonemanorhote.netdna-ssl.com/assets/uploads/2021/05/2021_05_02_23_43_51_model_1.h5"
-urllib.request.urlretrieve(
-        url, 'model.h5')
-MODEL_PATH = './model.h5'
-model = load_model(MODEL_PATH)
+model_name = "2021_05_10_17_33_09_model_3.h5"
+model = load_model(os.path.join(DATASET_PATH,'model', model_name))
 
-LABELS_PATH = os.path.join(dir,'assets','labels','2021_05_02_23_43_51_labels.csv')
+LABELS_PATH = (os.path.join(dir,'assets','labels','2021_05_10_17_33_09_labels.csv'))
 
 class Predictions:
     global image_01
 
     def load_convert_image(self, image_n):
 
-        #img1 = Image.open(image_n)
         # opens image uploaded from GUI and resizes to expected size
         img1 = Image.open(image_n)
 
@@ -46,9 +39,7 @@ class Predictions:
 
         # ensure image is in the expected format
         # 1 = batch size, IMG_SIZE = 224, 3 = colour image
-
         predict = model.predict(np.array(pp_img).reshape((1, IMG_SIZE, IMG_SIZE, 3)))
-
 
         return predict
 

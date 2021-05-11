@@ -4,11 +4,6 @@ import predictions
 
 pred = predictions.Predictions()
 
-# @st.cache
-# def load_model_web():
-#     url = "https://westonemanor-westonemanorhote.netdna-ssl.com/assets/uploads/2021/05/2021_05_02_23_43_51_model_1.h5"
-#     model_file = file_io.FileIO(url, mode='rb')
-#     return model_file
 
 def main():
 
