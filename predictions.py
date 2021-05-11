@@ -1,6 +1,7 @@
 import pandas as pd
 from tensorflow.keras.models import load_model
-from tensorflow.keras.applications.resnet50 import preprocess_input
+#from tensorflow.keras.applications.resnet50 import preprocess_input
+import tensorflow
 from tensorflow.keras.preprocessing import image
 from PIL import Image
 import os
@@ -31,7 +32,7 @@ class Predictions:
 
         img1 = img1.resize((IMG_SIZE, IMG_SIZE))
         x = image.img_to_array(img1)
-        X = preprocess_input(x)
+        X = tensorflow.keras.applications.inception_v3.preprocess_input(x)
 
         return X
 
