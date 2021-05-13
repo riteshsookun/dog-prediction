@@ -1,5 +1,3 @@
+altair
 pandas
 streamlit
-tensorflow-gpu
-numpy
-Pillow
