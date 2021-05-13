@@ -1,5 +1,4 @@
 import pandas as pd
-import tensorflow as tf
 from tensorflow.keras.models import load_model
 import tensorflow
 from tensorflow.keras.preprocessing import image
@@ -14,14 +13,15 @@ image_01 = None
 dir = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
 DATASET_PATH = os.path.join(dir,'assets')
 
-@st.cache
+
+@st.cache(allow_output_mutation=True)
 def load_saved_model():
     model_name = "2021_05_10_17_33_09_model_3.h5"
     model = load_model(os.path.join(DATASET_PATH,'model', model_name))
     return model
 
 LABELS_PATH = (os.path.join(dir,'assets','labels','2021_05_10_17_33_09_labels.csv'))
-model = load_saved_model
+model = load_saved_model()
 
 class Predictions:
     global image_01
@@ -64,5 +64,3 @@ class Predictions:
 
 if __name__ == "__main__":
     pass
-
-print(model.summary())

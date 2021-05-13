@@ -7,19 +7,20 @@ pred = predictions.Predictions()
 
 def main():
 
+    # sidebar help
+    st.sidebar.title('Need some help?')
+    st.sidebar.write("To get started, make sure you already have the"
+                     " photo of the dog you want to classify saved to your computer.")
+    st.sidebar.write("Next, click on 'Browse files then select the location of the saved image. The image"
+                     " must either be a .PNG, .JPG or .JPEG file and no larger than 200MB.")
+    st.sidebar.write("Once you upload your photo, the predicted breed should show up on screen! The"
+                     " probability score is also displayed.")
+    st.sidebar.write("We can only know about 120 different breeds so we might not be able to correctly guess all"
+                     " types of breeds.")
+    st.sidebar.write("If for some reason we cannot process your image, an error message"
+                     " will come up asking for another photo :)")
+    # title
     st.title("What breed is this dog?")
-
-    # Add a selectbox to the sidebar:
-    add_selectbox = st.sidebar.selectbox(
-        'How would you like to be contacted?',
-        ('Email', 'Home phone', 'Mobile phone')
-    )
-
-    # Add a slider to the sidebar:
-    add_slider = st.sidebar.slider(
-        'Select a range of values',
-        0.0, 100.0, (25.0, 75.0)
-    )
 
     # get image to classify
     predictions.image_01 = st.file_uploader("Upload photo", type=["png", "jpg", "jpeg"])
@@ -49,7 +50,9 @@ def main():
                          ('%.0f' % (prediction_acc * 100.0)), "%")
 
         except ValueError:
+            # catch all ValueErrors
             st.error("We couldn't process your image! Please try another photo")
+
 
 if __name__ == "__main__":
     main()

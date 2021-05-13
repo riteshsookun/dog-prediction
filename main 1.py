@@ -1,9 +1,7 @@
-#main
 
+# this file isn't part of the GUI! This file is used to create, train and save the ML models that are used later.
 import os
-import sys
 
-import simplejson as simplejson
 import tensorflow as tf
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -19,10 +17,9 @@ import pandas as pd
 import numpy as np
 import tensorflow
 from sklearn.model_selection import train_test_split
-import matplotlib.image as mpimg
 from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D
 from keras.layers import Dropout, Flatten, Dense, Activation
-from keras.models import Sequential, Model
+from keras.models import Sequential
 from keras.layers.normalization import BatchNormalization
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 import matplotlib.pyplot as plt
@@ -32,10 +29,6 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.applications.vgg16 import VGG16
 from keras.applications.resnet50 import ResNet50
 from keras.applications.inception_v3 import InceptionV3
-from keras.models import Model
-import random
-from sklearn import metrics
-import seaborn as sn
 from contextlib import redirect_stdout
 import datetime
 
@@ -63,7 +56,7 @@ def model_history(history):
     plt.ylabel('Loss')
 
     history_file_name_loss_png = current_time + "_model_" + str(MODEL_TYPE) + "_loss_plot.png"
-    plt.savefig(os.path.join(model_history_path, history_file_name_loss_png), dpi=800)
+    #plt.savefig(os.path.join(model_history_path, history_file_name_loss_png), dpi=800)
     #plt.show()
 
     # plot accuracy
@@ -71,7 +64,7 @@ def model_history(history):
     plt.plot(history.history['accuracy'], color='blue', label='train')
     plt.plot(history.history['val_accuracy'], color='orange', label='test')
     history_file_name_accuracy_png = current_time + "_model_" + str(MODEL_TYPE) + "_accuracy_plot.png"
-    plt.savefig(os.path.join(model_history_path, history_file_name_accuracy_png), dpi=800)
+    #plt.savefig(os.path.join(model_history_path, history_file_name_accuracy_png), dpi=800)
     #plt.show()
 
     # save val accuracy to file
@@ -167,6 +160,7 @@ def model_scratch():
 
     # compile the model
     model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
+
 
     return model
 
@@ -279,13 +273,13 @@ LABELS_PATH = os.path.join(ASSETS_PATH,'labels', labels_csv_file_name)
 pd.DataFrame(breed_names, columns=['breed']).to_csv(LABELS_PATH, index=False)
 
 # Show a graph of the distribution of breeds in the dataset
-# plt.bar(breed_names, labels_csv['breed'].value_counts().tolist())
-# plt.xticks(rotation=90)
-# plt.xlabel("Class Name")
-# plt.ylabel("Number of images")
-# plt.title("Number of images per class")
-# plt.tight_layout()
-# plt.show()
+plt.bar(breed_names, labels_csv['breed'].value_counts().tolist())
+plt.xticks(rotation=90)
+plt.xlabel("Class Name")
+plt.ylabel("Number of images")
+plt.title("Number of images per class")
+plt.tight_layout()
+plt.show()
 
 # creates the file path for the location of the dataset images
 dataset = pd.DataFrame(columns=['filename'])
@@ -325,7 +319,6 @@ else:
 
 # ensures breed_names is in numpy array
 breed_names = np.array(breed_names)
-#labels_csv = np.array(labels_csv)
 
 # Turn every label into a boolean array
 labels = labels_csv.breed.values
@@ -382,8 +375,7 @@ print("shape of y train labels is: ", y_train.shape)
 print("shape of y val labels is: ", y_val.shape)
 
 
-#for k in range(1,3):
-for k in range(1,4,2):
+for k in range(1,5):
 
     # sets MODEL_TYPE to value from 1-4
     MODEL_TYPE = k
@@ -456,21 +448,3 @@ for k in range(1,4,2):
 TEST_PRED_PATH = os.path.join(ASSETS_PATH, 'test_predictions')
 y_test_file_name = current_time + "_y_test.csv"
 np.savetxt(os.path.join(TEST_PRED_PATH, y_test_file_name), y_test, delimiter=",")
-
-# for k in range(1,4,2):
-#     #pre-process test dataset
-#     #1 is resnet, 2 is VGG, 3 is inception
-#     # sets MODEL_TYPE to value from 1-4
-#     MODEL_TYPE = k
-#     preprocess_test_dataset()
-#
-#     test_datagen = ImageDataGenerator()
-#     test_generator = test_datagen.flow(X_test_pp, y_test, batch_size=BATCH_SIZE)
-#
-#     t_predictions = model.predict(X_test_pp, verbose=1)
-#
-#     # Saves the X_test data needed for evaluation later
-#     TEST_PRED_PATH = os.path.join(ASSETS_PATH,'test_predictions')
-#     t_predictions_file_name = current_time + "_model_" + str(MODEL_TYPE) + "_X_test_predictions.csv"
-#     np.savetxt(os.path.join(TEST_PRED_PATH, t_predictions_file_name), t_predictions, delimiter=",")
-
